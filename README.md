@@ -1,12 +1,11 @@
 strokerouter
 ============
 
-strokerouter is an abstraction of d3 key event handling.
+strokerouter lets you hook functions up to keystrokes. It abstracts D3 key event handling.
 
 Usage
 -----
 
-    var report = d3.select('#report');
     var docStrokeRouter = createStrokeRouter(d3.select(document));
 
     // Single key routes.
