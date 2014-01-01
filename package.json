@@ -1,0 +1,23 @@
+{
+  "name": "strokerouter",
+  "version": "0.1.0",
+  "description": "A browser-side keystroke event router.",
+  "main": "strokerouter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jimkang/strokerouter.git"
+  },
+  "keywords": [
+    "keystroke",
+    "router",
+    "browser"
+  ],
+  "author": "Jim Kang",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "~3.0.0"
+  }
+}
