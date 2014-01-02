@@ -5,7 +5,9 @@ var router = {
   keyUpRespondersForKeyIds: {},
   keyDownRespondersForKeyIds: {},
   enable: true,
-  stopPropIfResponderFound: true
+  stopPropIfResponderFound: true,
+  absorbAllKeyUpEvents: false,
+  absorbAllKeyDownEvents: false,
 };
 
 router.keyCodesForNames = {
@@ -140,6 +142,9 @@ function addModifierMask(currentValue, modifierString) {
 
 router.onKeyUp = function onKeyUp() {
   if (this.enable) {
+    if (this.absorbAllKeyUpEvents) {
+      d3.event.stopPropagation();
+    }
     var keyId = getKeyId(d3.event.which, listModifiersInEvent(d3.event));
     if (keyId in this.keyUpRespondersForKeyIds) {
       if (this.stopPropIfResponderFound) {
@@ -153,6 +158,9 @@ router.onKeyUp = function onKeyUp() {
 
 router.onKeyDown = function onKeyDown() {
   if (this.enable) {
+    if (this.absorbAllKeyDownEvents) {
+      d3.event.stopPropagation();
+    }
     var keyId = getKeyId(d3.event.which, listModifiersInEvent(d3.event));
     if (keyId in this.keyDownRespondersForKeyIds) {
       if (this.stopPropIfResponderFound) {

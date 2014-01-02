@@ -29,6 +29,10 @@
     width: 500px;
     border: 1px orange solid;
   }
+
+  .editspace {
+    border: 1px green solid;
+  }
   </style>
 </head>
 <body>
@@ -42,6 +46,12 @@
     <li>Cmd + Delete (or Backspace)</li>
     <li>Ctrl + Opt (or Alt) + Z</li>
   </ul>
+</div>
+
+<h3>Editable content:</h3>
+<div class="editspace" contenteditable="true">
+  This is editable content. The router is set up to absorb all key up and down 
+  events so that they don't get passed to the document's router while you type here. If you type 'U' here, it won't get reported the way it would outside of this div. However, there is a special handler for ctrl+Q, and that will get reported.
 </div>
 
 <h3>Response:</h3>
@@ -71,6 +81,15 @@
   docStrokeRouter.routeKeyDown('z', ['alt', 'ctrl'], function equal() {
     report.text('Ctrl, Opt (Alt), and Z pressed.');
   });
+
+  var editSpaceRouter = createStrokeRouter(d3.select('.editspace'));
+  editSpaceRouter.absorbAllKeyUpEvents = true;
+  editSpaceRouter.absorbAllKeyDownEvents = true;
+  editSpaceRouter.routeKeyDown('q', ['ctrl'], function leaveEditSpace() {
+    report.text('Ctrl and Q pressed inside of edit space.');
+    document.querySelector('.editspace').blur();
+  });
+
 </script>
 </body>
 </html>
