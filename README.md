@@ -16,6 +16,9 @@ Usage
       console.log('U pressed.');
     });
 
+    // Unroute a keystoke so that there is no longer a response to it.
+    docStrokeRouter.unrouteKeyUp('u', null);
+
 
 Now when the user hits Esc or U, a message will be logged to the console.
 

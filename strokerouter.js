@@ -97,6 +97,16 @@ router.routeKeyDown = function routeKeyDown(keyName, modifiers, responder) {
   this.keyDownRespondersForKeyIds[keyId] = responder;
 };
 
+router.unrouteKeyUp = function unrouteKeyUp(keyName, modifiers) {
+  var keyId = getKeyId(this.keyCodesForNames[keyName], modifiers);
+  delete this.keyUpRespondersForKeyIds[keyId];
+};
+
+router.unrouteKeyDown = function unrouteKeyDown(keyName, modifiers) {
+  var keyId = getKeyId(this.keyCodesForNames[keyName], modifiers);
+  delete this.keyDownRespondersForKeyIds[keyId];
+};
+
 function getKeyId(keyCode, modifiers) {
   var keyId = keyCode;
   if (modifiers) {

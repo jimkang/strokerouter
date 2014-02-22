@@ -45,6 +45,8 @@
     <li+</li>
     <li>Cmd + Delete (or Backspace)</li>
     <li>Ctrl + Opt (or Alt) + Z</li>
+    <li>Cmd + Opt (or Alt) + K to <i>unroute</i> the 'U' route so that there's no more response to typing just 'U' .</li>
+    <li>Cmd + Opt (or Alt) + Z to <i>unroute</i> the 'Ctrl + Opt (or Alt) + Z' route so that there's no more response to typing that.</li>
   </ul>
 </div>
 
@@ -78,8 +80,17 @@
   docStrokeRouter.routeKeyDown('backspace', ['meta'], function deleteCmd() {
     report.text('Delete and Cmd (on a Mac) pressed.');
   });
-  docStrokeRouter.routeKeyDown('z', ['alt', 'ctrl'], function equal() {
+  docStrokeRouter.routeKeyDown('z', ['alt', 'ctrl'], function ctrlAltZ() {
     report.text('Ctrl, Opt (Alt), and Z pressed.');
+  });
+
+  docStrokeRouter.routeKeyDown('k', ['alt', 'meta'], function cmdAltU() {
+    docStrokeRouter.unrouteKeyUp('u', null);
+    report.text('Cmd, Opt (Alt), and U pressed. U is now unrouted.');
+  });
+  docStrokeRouter.routeKeyDown('z', ['alt', 'meta'], function cmdAltZ() {
+    docStrokeRouter.unrouteKeyDown('z', ['alt', 'ctrl'], null);
+    report.text('Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.');
   });
 
   var editSpaceRouter = createStrokeRouter(d3.select('.editspace'));
