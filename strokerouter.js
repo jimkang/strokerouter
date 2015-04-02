@@ -200,7 +200,5 @@ return router;
 }
 
 if (commonJS) {
-  module.exports = {
-    create: createStrokeRouter
-  };
+  module.exports = createStrokeRouter;
 }
