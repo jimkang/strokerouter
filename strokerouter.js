@@ -1,4 +1,11 @@
-function createStrokeRouter(sourceSelection) {
+var commonJS = (typeof module === 'object' && typeof module.exports === 'object');
+
+function createStrokeRouter(sourceSelection, d3Event) {
+
+if (!d3Event && !commonJS) {
+  // Probably being used via <script> tag; assume d3 was included first.
+  d3Event = d3.event;
+}
 
 var router = {
   sourceSelection: sourceSelection,
@@ -190,4 +197,10 @@ function init() {
 init.bind(router)();
 
 return router;
+}
+
+if (commonJS) {
+  module.exports = {
+    create: createStrokeRouter
+  };
 }

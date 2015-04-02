@@ -24,6 +24,13 @@ Now when the user hits Esc or U, a message will be logged to the console.
 
 See also: [examples/basic.html](http://jimkang.com/strokerouter/examples/basic.html).
 
+With Browserify:
+
+    var d3 = require('./my-d3-build'); // Or just: require('d3');
+    var createStrokeRouter = require('strokerouter', d3.event);
+    var docStrokeRouter = createStrokeRouter(d3.select(document));
+    // Etc.
+
 Requirements
 ------------
 It depends on D3 v3.
