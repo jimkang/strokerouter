@@ -17,9 +17,7 @@
   ],
   "author": "Jim Kang",
   "license": "MIT",
-  "dependencies": {
-    "d3": "~3.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "d3-selection": "^0.6.10"
   }

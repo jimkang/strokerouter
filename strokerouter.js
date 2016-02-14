@@ -1,9 +1,9 @@
 var commonJS = (typeof module === 'object' && typeof module.exports === 'object');
 
-function createStrokeRouter(sourceSelection) {
+function createStrokeRouter(sourceEl) {
 
 var router = {
-  sourceSelection: sourceSelection,
+  sourceEl: sourceEl,
   keyUpRespondersForKeyIds: {},
   keyDownRespondersForKeyIds: {},
   enable: true,
@@ -185,10 +185,8 @@ router.onKeyDown = function onKeyDown(e) {
 };
 
 function init() {
-  // this.sourceSelection.on('keyup', this.onKeyUp.bind(this));  
-  // this.sourceSelection.on('keydown', this.onKeyDown.bind(this));  
-  this.sourceSelection.node().addEventListener('keyup', this.onKeyUp.bind(this));
-  this.sourceSelection.node().addEventListener('keydown', this.onKeyDown.bind(this));
+  this.sourceEl.addEventListener('keyup', this.onKeyUp.bind(this));
+  this.sourceEl.addEventListener('keydown', this.onKeyDown.bind(this));
 }
 
 init.bind(router)();
