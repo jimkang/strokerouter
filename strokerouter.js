@@ -1,11 +1,6 @@
 var commonJS = (typeof module === 'object' && typeof module.exports === 'object');
 
-function createStrokeRouter(sourceSelection, d3Event) {
-
-if (!d3Event && !commonJS) {
-  // Probably being used via <script> tag; assume d3 was included first.
-  d3Event = d3.event;
-}
+function createStrokeRouter(sourceSelection) {
 
 var router = {
   sourceSelection: sourceSelection,
@@ -158,15 +153,15 @@ function addModifierMask(currentValue, modifierString) {
   return newValue;
 }
 
-router.onKeyUp = function onKeyUp() {
+router.onKeyUp = function onKeyUp(e) {
   if (this.enable) {
     if (this.absorbAllKeyUpEvents) {
-      d3.event.stopPropagation();
+      e.stopPropagation();
     }
-    var keyId = getKeyId(d3.event.which, listModifiersInEvent(d3.event));
+    var keyId = getKeyId(e.which, listModifiersInEvent(e));
     if (keyId in this.keyUpRespondersForKeyIds) {
       if (this.stopPropIfResponderFound) {
-        d3.event.stopPropagation();
+        e.stopPropagation();
       }
       this.keyUpRespondersForKeyIds[keyId]();
     }
@@ -174,15 +169,15 @@ router.onKeyUp = function onKeyUp() {
 };
 
 
-router.onKeyDown = function onKeyDown() {
+router.onKeyDown = function onKeyDown(e) {
   if (this.enable) {
     if (this.absorbAllKeyDownEvents) {
-      d3.event.stopPropagation();
+      e.stopPropagation();
     }
-    var keyId = getKeyId(d3.event.which, listModifiersInEvent(d3.event));
+    var keyId = getKeyId(e.which, listModifiersInEvent(e));
     if (keyId in this.keyDownRespondersForKeyIds) {
       if (this.stopPropIfResponderFound) {
-        d3.event.stopPropagation();
+        e.stopPropagation();
       }
       this.keyDownRespondersForKeyIds[keyId]();
     }
@@ -190,8 +185,10 @@ router.onKeyDown = function onKeyDown() {
 };
 
 function init() {
-  this.sourceSelection.on('keyup', this.onKeyUp.bind(this));  
-  this.sourceSelection.on('keydown', this.onKeyDown.bind(this));  
+  // this.sourceSelection.on('keyup', this.onKeyUp.bind(this));  
+  // this.sourceSelection.on('keydown', this.onKeyDown.bind(this));  
+  this.sourceSelection.node().addEventListener('keyup', this.onKeyUp.bind(this));
+  this.sourceSelection.node().addEventListener('keydown', this.onKeyDown.bind(this));
 }
 
 init.bind(router)();

@@ -1,0 +1,65 @@
+<html>
+<head>
+  <style>
+  body {
+    font-family: sans-serif;
+    font-size: 20px;
+    color: #333;
+  }
+  #report {
+    border: 1px dashed #666;
+    height: 3em;
+  }
+  .instructions {
+    border: 1px dashed #283;
+    padding: 1em;
+  }
+  .arrow {
+    fill: #333;
+  }
+  .arrow .active {
+    fill: #f88;
+  }
+
+  svg {
+    height: 300px;
+  }
+  #arrowlayer {
+    height: 500px;
+    width: 500px;
+    border: 1px orange solid;
+  }
+
+  .editspace {
+    border: 1px green solid;
+  }
+  </style>
+</head>
+<body>
+
+<div class="instructions">
+  Try typing:
+  <ul>
+    <li>Escape</li>
+    <li>U</li>
+    <li+</li>
+    <li>Cmd + Delete (or Backspace)</li>
+    <li>Ctrl + Opt (or Alt) + Z</li>
+    <li>Cmd + Opt (or Alt) + K to <i>unroute</i> the 'U' route so that there's no more response to typing just 'U' .</li>
+    <li>Cmd + Opt (or Alt) + Z to <i>unroute</i> the 'Ctrl + Opt (or Alt) + Z' route so that there's no more response to typing that.</li>
+  </ul>
+</div>
+
+<h3>Editable content:</h3>
+<div class="editspace" contenteditable="true">
+  This is editable content. The router is set up to absorb all key up and down 
+  events so that they don't get passed to the document's router while you type here. If you type 'U' here, it won't get reported the way it would outside of this div. However, there is a special handler for ctrl+Q, and that will get reported.
+</div>
+
+<h3>Response:</h3>
+<div id="report"></div>
+
+<script src="index.js"></script>
+
+</body>
+</html>
