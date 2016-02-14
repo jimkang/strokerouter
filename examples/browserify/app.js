@@ -32,8 +32,8 @@ docStrokeRouter.routeKeyDown('z', ['alt', 'meta'], function cmdAltZ() {
 });
 
 var editSpaceRouter = StrokeRouter(document.querySelector('.editspace'));
-editSpaceRouter.absorbAllKeyUpEvents = true;
-editSpaceRouter.absorbAllKeyDownEvents = true;
+editSpaceRouter.setKeyUpAbsorbMode(true);
+editSpaceRouter.setKeyDownAbsorbMode(true);
 editSpaceRouter.routeKeyDown('q', ['ctrl'], function leaveEditSpace() {
   report.textContent = 'Ctrl and Q pressed inside of edit space.';
   document.querySelector('.editspace').blur();
