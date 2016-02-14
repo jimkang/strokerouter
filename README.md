@@ -1,7 +1,7 @@
 strokerouter
 ============
 
-strokerouter lets you hook functions up to keystrokes.
+strokerouter lets you hook functions up to keystrokes. It has no dependencies.
 
 Usage
 -----

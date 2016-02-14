@@ -18,4 +18,4 @@ commit-build: build build-browserify-example
 	git commit -a -m"Build for $(LASTSHA)."
 
 pushall: commit-build
-	git push origin gh-pages
+	git push origin gh-pages && npm publish
