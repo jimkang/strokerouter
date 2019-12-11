@@ -28,7 +28,8 @@ docStrokeRouter.routeKeyDown('k', ['alt', 'meta'], function cmdAltU() {
 });
 docStrokeRouter.routeKeyDown('z', ['alt', 'meta'], function cmdAltZ() {
   docStrokeRouter.unrouteKeyDown('z', ['alt', 'ctrl'], null);
-  report.textContent = 'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
+  report.textContent =
+    'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
 });
 
 var editSpaceRouter = StrokeRouter(document.querySelector('.editspace'));

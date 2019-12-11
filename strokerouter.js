@@ -21,12 +21,12 @@ function StrokeRouter(sourceEl) {
   function unrouteKeyUp(keyName, modifiers) {
     var keyId = getKeyId(keycodesForNames[keyName], modifiers);
     delete keyUpRespondersForKeyIds[keyId];
-  };
+  }
 
   function unrouteKeyDown(keyName, modifiers) {
     var keyId = getKeyId(keycodesForNames[keyName], modifiers);
     delete keyDownRespondersForKeyIds[keyId];
-  };
+  }
 
   function getKeyId(keyCode, modifiers) {
     var keyId = keyCode;
@@ -85,8 +85,7 @@ function StrokeRouter(sourceEl) {
         keyUpRespondersForKeyIds[keyId]();
       }
     }
-  };
-
+  }
 
   function onKeyDown(e) {
     if (enable) {
@@ -101,7 +100,7 @@ function StrokeRouter(sourceEl) {
         keyDownRespondersForKeyIds[keyId]();
       }
     }
-  };
+  }
 
   function setKeyDownAbsorbMode(newMode) {
     absorbAllKeyDownEvents = newMode;
@@ -111,10 +110,10 @@ function StrokeRouter(sourceEl) {
     absorbAllKeyUpEvents = newMode;
   }
 
-  ((function init() {
+  (function init() {
     sourceEl.addEventListener('keyup', onKeyUp);
     sourceEl.addEventListener('keydown', onKeyDown);
-  })());
+  })();
 
   return {
     routeKeyUp: routeKeyUp,

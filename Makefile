@@ -19,3 +19,6 @@ commit-build: build build-browserify-example
 
 pushall: commit-build
 	git push origin gh-pages && npm publish
+
+prettier:
+	prettier --single-quote --write "**/*.js"
