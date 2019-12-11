@@ -1,6 +1,6 @@
 var keycodesForNames = require('./keycodes-for-names');
 
-function StrokeRouter(sourceEl) {
+function StrokeRouter(sourceEl, d3) {
   var keyUpRespondersForKeyIds = {};
   var keyDownRespondersForKeyIds = {};
   var enable = true;
@@ -56,20 +56,32 @@ function StrokeRouter(sourceEl) {
   function addModifierMask(currentValue, modifierString) {
     var newValue = currentValue;
     switch (modifierString) {
-      case 'meta':
-        newValue += 1000;
-        break;
-      case 'ctrl':
-        newValue += 10000;
-        break;
-      case 'shift':
-        newValue += 100000;
-        break;
-      case 'alt':
-        newValue += 1000000;
-        break;
+    case 'meta':
+      newValue += 1000;
+      break;
+    case 'ctrl':
+      newValue += 10000;
+      break;
+    case 'shift':
+      newValue += 100000;
+      break;
+    case 'alt':
+      newValue += 1000000;
+      break;
     }
     return newValue;
+  }
+
+  function onKeyUpD3() {
+    if (d3) {
+      onKeyUp(d3.event);
+    }
+  }
+
+  function onKeyDownD3() {
+    if (d3) {
+      onKeyDown(d3.event);
+    }
   }
 
   function onKeyUp(e) {
@@ -110,18 +122,17 @@ function StrokeRouter(sourceEl) {
     absorbAllKeyUpEvents = newMode;
   }
 
-  (function init() {
-    sourceEl.addEventListener('keyup', onKeyUp);
-    sourceEl.addEventListener('keydown', onKeyDown);
-  })();
-
   return {
     routeKeyUp: routeKeyUp,
     routeKeyDown: routeKeyDown,
     unrouteKeyUp: unrouteKeyUp,
     unrouteKeyDown: unrouteKeyDown,
     setKeyDownAbsorbMode: setKeyDownAbsorbMode,
-    setKeyUpAbsorbMode: setKeyUpAbsorbMode
+    setKeyUpAbsorbMode: setKeyUpAbsorbMode,
+    onKeyUp: onKeyUp,
+    onKeyDown: onKeyDown,
+    onKeyUpD3: onKeyUpD3,
+    onKeyDownD3: onKeyDownD3
   };
 }
 

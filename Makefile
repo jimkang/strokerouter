@@ -1,4 +1,4 @@
-BROWSERIFY = browserify
+BROWSERIFY = node_modules/.bin/browserify
 UGLIFY = node_modules/.bin/uglifyjs
 LASTSHA=$$(git rev-parse HEAD)
 
@@ -12,7 +12,7 @@ build:
 	$(BROWSERIFY) window-exports.js | $(UGLIFY) -c -m -o strokerouter-dist.min.js
 
 build-browserify-example:
-	cd examples/browserify && $(BROWSERIFY) app.js > index.js
+	 $(BROWSERIFY) examples/browserify/app.js > examples/browserify/index.js
 
 commit-build: build build-browserify-example
 	git commit -a -m"Build for $(LASTSHA)."

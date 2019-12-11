@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 var StrokeRouter = require('./strokerouter');
 
 var report = document.querySelector('#report');
@@ -29,16 +29,25 @@ docStrokeRouter.routeKeyDown('k', ['alt', 'meta'], function cmdAltU() {
 });
 docStrokeRouter.routeKeyDown('z', ['alt', 'meta'], function cmdAltZ() {
   docStrokeRouter.unrouteKeyDown('z', ['alt', 'ctrl'], null);
-  report.textContent = 'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
+  report.textContent =
+    'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
 });
 
-var editSpaceRouter = StrokeRouter(document.querySelector('.editspace'));
+document.addEventListener('keyup', docStrokeRouter.onKeyUp);
+document.addEventListener('keydown', docStrokeRouter.onKeyDown);
+
+var editSpaceEl = document.querySelector('.editspace');
+var editSpaceRouter = StrokeRouter(editSpaceEl);
+
 editSpaceRouter.setKeyUpAbsorbMode(true);
 editSpaceRouter.setKeyDownAbsorbMode(true);
 editSpaceRouter.routeKeyDown('q', ['ctrl'], function leaveEditSpace() {
   report.textContent = 'Ctrl and Q pressed inside of edit space.';
   document.querySelector('.editspace').blur();
 });
+
+editSpaceEl.addEventListener('keyup', editSpaceRouter.onKeyUp);
+editSpaceEl.addEventListener('keydown', editSpaceRouter.onKeyDown);
 
 },{"./strokerouter":3}],2:[function(require,module,exports){
 var keyCodesForNames = {
@@ -123,7 +132,7 @@ module.exports = keyCodesForNames;
 },{}],3:[function(require,module,exports){
 var keycodesForNames = require('./keycodes-for-names');
 
-function StrokeRouter(sourceEl) {
+function StrokeRouter(sourceEl, d3) {
   var keyUpRespondersForKeyIds = {};
   var keyDownRespondersForKeyIds = {};
   var enable = true;
@@ -144,12 +153,12 @@ function StrokeRouter(sourceEl) {
   function unrouteKeyUp(keyName, modifiers) {
     var keyId = getKeyId(keycodesForNames[keyName], modifiers);
     delete keyUpRespondersForKeyIds[keyId];
-  };
+  }
 
   function unrouteKeyDown(keyName, modifiers) {
     var keyId = getKeyId(keycodesForNames[keyName], modifiers);
     delete keyDownRespondersForKeyIds[keyId];
-  };
+  }
 
   function getKeyId(keyCode, modifiers) {
     var keyId = keyCode;
@@ -179,20 +188,32 @@ function StrokeRouter(sourceEl) {
   function addModifierMask(currentValue, modifierString) {
     var newValue = currentValue;
     switch (modifierString) {
-      case 'meta':
-        newValue += 1000;
-        break;
-      case 'ctrl':
-        newValue += 10000;
-        break;
-      case 'shift':
-        newValue += 100000;
-        break;
-      case 'alt':
-        newValue += 1000000;
-        break;
+    case 'meta':
+      newValue += 1000;
+      break;
+    case 'ctrl':
+      newValue += 10000;
+      break;
+    case 'shift':
+      newValue += 100000;
+      break;
+    case 'alt':
+      newValue += 1000000;
+      break;
     }
     return newValue;
+  }
+
+  function onKeyUpD3() {
+    if (d3) {
+      onKeyUp(d3.event);
+    }
+  }
+
+  function onKeyDownD3() {
+    if (d3) {
+      onKeyDown(d3.event);
+    }
   }
 
   function onKeyUp(e) {
@@ -208,8 +229,7 @@ function StrokeRouter(sourceEl) {
         keyUpRespondersForKeyIds[keyId]();
       }
     }
-  };
-
+  }
 
   function onKeyDown(e) {
     if (enable) {
@@ -224,7 +244,7 @@ function StrokeRouter(sourceEl) {
         keyDownRespondersForKeyIds[keyId]();
       }
     }
-  };
+  }
 
   function setKeyDownAbsorbMode(newMode) {
     absorbAllKeyDownEvents = newMode;
@@ -234,18 +254,17 @@ function StrokeRouter(sourceEl) {
     absorbAllKeyUpEvents = newMode;
   }
 
-  ((function init() {
-    sourceEl.addEventListener('keyup', onKeyUp);
-    sourceEl.addEventListener('keydown', onKeyDown);
-  })());
-
   return {
     routeKeyUp: routeKeyUp,
     routeKeyDown: routeKeyDown,
     unrouteKeyUp: unrouteKeyUp,
     unrouteKeyDown: unrouteKeyDown,
     setKeyDownAbsorbMode: setKeyDownAbsorbMode,
-    setKeyUpAbsorbMode: setKeyUpAbsorbMode
+    setKeyUpAbsorbMode: setKeyUpAbsorbMode,
+    onKeyUp: onKeyUp,
+    onKeyDown: onKeyDown,
+    onKeyUpD3: onKeyUpD3,
+    onKeyDownD3: onKeyDownD3
   };
 }
 

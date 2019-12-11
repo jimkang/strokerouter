@@ -20,8 +20,11 @@ Usage
       console.log('U pressed.');
     });
 
+    document.addEventListener('keyup', docStrokeRouter.onKeyUp);
+
     // Unroute a keystoke so that there is no longer a response to it.
     docStrokeRouter.unrouteKeyUp('u', null);
+
 
 Now when the user hits Esc or U, a message will be logged to the console.
 
@@ -41,11 +44,24 @@ See an example running here: [examples/browserify](http://jimkang.com/strokerout
           console.log('U pressed.');
         });
 
+        document.addEventListener('keyup', docStrokeRouter.onKeyUp);
+
         // Unroute a keystoke so that there is no longer a response to it.
-        docStrokeRouter.unrouteKeyUp('u', null);        
+        docStrokeRouter.unrouteKeyUp('u', null);
     </script>
 
 See an example running here: [examples/basic.html](http://jimkang.com/strokerouter/examples/basic.html).
+
+**D3**
+
+To work with events wrapped by [d3-selection](github.com/d3/d3-selection), pass the d3 selection object (the thing you require/import from d3-selection) as the second param of the constructor:
+
+    var d3 = require('d3-selection');
+    var strokerouter = StrokeRouter(myEl, d3);
+
+Then, use the `onKeyUpD3` and `onKeyDownD3` methods as event listeners.
+
+    document.addEventListener('keyup', onKeyUpD3);
 
 Installation
 ------------

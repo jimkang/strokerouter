@@ -52,7 +52,7 @@
 
 <h3>Editable content:</h3>
 <div class="editspace" contenteditable="true">
-  This is editable content. The router is set up to absorb all key up and down 
+  This is editable content. The router is set up to absorb all key up and down
   events so that they don't get passed to the document's router while you type here. If you type 'U' here, it won't get reported the way it would outside of this div. However, there is a special handler for ctrl+Q, and that will get reported.
 </div>
 
@@ -91,14 +91,20 @@
     docStrokeRouter.unrouteKeyDown('z', ['alt', 'ctrl'], null);
     report.textContent = 'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
   });
-  
-  var editSpaceRouter = StrokeRouter(document.querySelector('.editspace'));
+
+  document.addEventListener('keyup', docStrokeRouter.onKeyUp);
+  document.addEventListener('keydown', docStrokeRouter.onKeyDown);
+
+  var editSpaceEl = document.querySelector('.editspace') ;
+  var editSpaceRouter = StrokeRouter(editSpaceEl);
   editSpaceRouter.setKeyUpAbsorbMode(true);
   editSpaceRouter.setKeyDownAbsorbMode(true);
   editSpaceRouter.routeKeyDown('q', ['ctrl'], function leaveEditSpace() {
   report.textContent = 'Ctrl and Q pressed inside of edit space.';
   document.querySelector('.editspace').blur();
   });
+  editSpaceEl.addEventListener('keyup', editSpaceRouter.onKeyUp);
+  editSpaceEl.addEventListener('keydown', editSpaceRouter.onKeyDown);
 
 </script>
 </body>

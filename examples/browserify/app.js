@@ -32,10 +32,18 @@ docStrokeRouter.routeKeyDown('z', ['alt', 'meta'], function cmdAltZ() {
     'Cmd, Opt (Alt), and Z pressed. Ctrl + Opt (Alt) + Z is now unrouted.';
 });
 
-var editSpaceRouter = StrokeRouter(document.querySelector('.editspace'));
+document.addEventListener('keyup', docStrokeRouter.onKeyUp);
+document.addEventListener('keydown', docStrokeRouter.onKeyDown);
+
+var editSpaceEl = document.querySelector('.editspace');
+var editSpaceRouter = StrokeRouter(editSpaceEl);
+
 editSpaceRouter.setKeyUpAbsorbMode(true);
 editSpaceRouter.setKeyDownAbsorbMode(true);
 editSpaceRouter.routeKeyDown('q', ['ctrl'], function leaveEditSpace() {
   report.textContent = 'Ctrl and Q pressed inside of edit space.';
   document.querySelector('.editspace').blur();
 });
+
+editSpaceEl.addEventListener('keyup', editSpaceRouter.onKeyUp);
+editSpaceEl.addEventListener('keydown', editSpaceRouter.onKeyDown);
